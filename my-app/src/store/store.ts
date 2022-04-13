@@ -1,6 +1,7 @@
-import { initialState } from './reducer'
+import { initialState, mainReducer } from './reducer'
+import { PayloadAction, ReducerType } from './types'
 
-export const validateAction = (action: any) => {
+export const validateAction = (action: PayloadAction) => {
     if (!action || typeof action !== 'object' || Array.isArray(action)) {
         throw new Error('Action must be an object!')
     }
@@ -9,11 +10,11 @@ export const validateAction = (action: any) => {
     }
 }
 
-export const createStore = (reducer: any) => {
+export const createStore = (reducer: ReducerType) => {
     let state: typeof initialState
 
     const subscribers: any[] = []
-    const coreDispatch = (action: any) => {
+    const coreDispatch = (action: PayloadAction) => {
         validateAction(action)
         state = reducer(state, action)
         subscribers.forEach((handler: any) => handler())
@@ -36,3 +37,9 @@ export const createStore = (reducer: any) => {
     store.dispatch({ type: '@@redux/INIT' })
     return store
 }
+
+export const store = createStore(mainReducer)
+
+export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>
+export type StoreType = typeof store

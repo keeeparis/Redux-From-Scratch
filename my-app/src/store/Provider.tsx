@@ -1,12 +1,13 @@
 /* eslint-disable no-shadow */
-import React from 'react'
+import React, { ReactElement } from 'react'
+import { StoreType } from './store'
 
 const Provider = ({
     store, children,
 } : {
-    store: any, children: any
+    store: StoreType, children: ReactElement
 }) => {
-    const Context = React.createContext<any>(store)
+    const Context = React.createContext(store)
 
     return (
         <Context.Provider value={store}>

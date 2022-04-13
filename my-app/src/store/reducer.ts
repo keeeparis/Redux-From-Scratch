@@ -1,56 +1,30 @@
+import { CHANGE_STEP_SIZE, DO_NOTHING, UPDATE_COUNTER } from './constants'
+import { PayloadAction } from './types'
+
 export const initialState = {
-    openNoteId: null,
-    nextNoteId: 1,
-    notes: {} as any,
+    counter: 0,
+    stepSize: 1,
 }
 
-export const CREATE_NOTE = 'CREATE_NOTE'
-export const UPDATE_NOTE = 'UPDATE_NOTE'
-export const OPEN_NOTE = 'OPEN_NOTE'
-export const CLOSE_NOTE = 'CLOSE_NOTE'
-
-export const reducer = (state = initialState, action: any) => {
+export const mainReducer = (state = initialState, action: PayloadAction) => {
     switch (action.type) {
-    case CREATE_NOTE: {
-        const id = state.nextNoteId
-        const newNode = {
-            id,
-            content: '',
-        }
+    case UPDATE_COUNTER: {
+        const count = state.counter + action.payload.count
         return {
             ...state,
-            openNoteId: id,
-            nextNoteId: id + 1,
-            notes: {
-                ...state.notes,
-                [id]: newNode,
-            },
+            counter: count,
         }
     }
-    case UPDATE_NOTE: {
-        const { id, content } = action
-        const editedNote = {
-            ...state.notes[id],
-            content,
-        }
+    case DO_NOTHING: {
         return {
             ...state,
-            notes: {
-                ...state.notes,
-                [id]: editedNote,
-            },
         }
     }
-    case OPEN_NOTE: {
+
+    case CHANGE_STEP_SIZE: {
         return {
             ...state,
-            openNoteId: action.id,
-        }
-    }
-    case CLOSE_NOTE: {
-        return {
-            ...state,
-            openNoteId: null,
+            stepSize: action.payload.step,
         }
     }
 

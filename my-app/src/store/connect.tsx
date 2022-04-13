@@ -1,33 +1,66 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {
+    ElementType, useCallback, useEffect, useMemo, useState,
+} from 'react'
+// import { StoreType } from './store'
 
 interface Props {
     store?: any
 }
 
-const connect = (
+const Connect = (
     mapStateToProps: any,
     mapDispatchToProps: any,
 ) => (
-    Component: any,
+    Component: ElementType,
 ) => function connected(props : Props) {
+    const [a, setA] = useState(null)
     const [, updateState] = useState({})
     const forceUpdate = useCallback(() => updateState({}), [])
 
     useEffect(() => {
         const unsubscribe = props.store.subscribe(forceUpdate)
         return () => unsubscribe()
-    }, [props.store.getState()])
+    }, [props])
+
+    function deepEqual(x: any, y: any): any {
+        const ok = Object.keys
+        const tx = typeof x
+        const ty = typeof y
+        return x && y && tx === 'object' && tx === ty ? (
+            ok(x).length === ok(y).length
+            && ok(x).every((key) => deepEqual(x[key], y[key]))
+        ) : (x === y)
+    }
+
+    const stateProps = useMemo(
+        () => {
+            if (deepEqual(a, props.store.getState())) {
+                return a
+            }
+            setA(props.store.getState())
+            return mapStateToProps(props.store.getState(), props)
+        },
+        [props.store.getState()],
+    )
+    console.log(stateProps)
+
+    const dispatchProps = useMemo(
+        () => mapDispatchToProps(props.store.dispatch, props),
+        [props.store],
+    )
 
     return (
         <Component
             {...props}
-            {...mapStateToProps(props.store.getState(), props)}
-            {...mapDispatchToProps(props.store.dispatch, props)}
+            // {...mapStateToProps(props.store.getState(), props)}
+            {...stateProps}
+            // {...mapDispatchToProps(props.store.dispatch, props)}
+            {...dispatchProps}
         />
     )
 }
 
-export default connect
+export default Connect
 
 /* ) => class Connected extends React.Component<Props> {
     unsubscribe: any
