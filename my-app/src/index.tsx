@@ -10,6 +10,9 @@ const container = document.getElementById('root')
 const root = createRoot(container as HTMLDivElement)
 const store = createStore(reducer)
 
+export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>
+
 root.render(
     <React.StrictMode>
         <Provider store={store}>

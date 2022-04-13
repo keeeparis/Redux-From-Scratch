@@ -1,9 +1,6 @@
-/* eslint-disable no-unused-vars */
 import React from 'react'
 import NoteEditor from './NoteEditor'
 import NoteList from './NoteList'
-import { CREATE_NOTE, reducer, UPDATE_NOTE } from '../store/reducer'
-import { createStore } from '../store/store'
 
 const App = ({
     notes, openNoteId, onAddNote, onChangeNote,
@@ -13,6 +10,7 @@ const App = ({
     onOpenNote: any, onCloseNote: any,
 }) => (
     <div>
+        {JSON.stringify(notes)}
         {
             openNoteId
                 ? (

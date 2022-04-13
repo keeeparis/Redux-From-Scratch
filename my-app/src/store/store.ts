@@ -1,3 +1,5 @@
+import { initialState } from './reducer'
+
 export const validateAction = (action: any) => {
     if (!action || typeof action !== 'object' || Array.isArray(action)) {
         throw new Error('Action must be an object!')
@@ -8,15 +10,19 @@ export const validateAction = (action: any) => {
 }
 
 export const createStore = (reducer: any) => {
-    let state: any
+    let state: typeof initialState
+
     const subscribers: any[] = []
+    const coreDispatch = (action: any) => {
+        validateAction(action)
+        state = reducer(state, action)
+        subscribers.forEach((handler: any) => handler())
+    }
+    const getState = () => state
+
     const store = {
-        dispatch: (action: any) => {
-            validateAction(action)
-            state = reducer(state, action)
-            subscribers.forEach((handler: any) => handler())
-        },
-        getState: () => state,
+        dispatch: coreDispatch,
+        getState,
         subscribe: (handler: any) => {
             subscribers.push(handler)
             return () => {

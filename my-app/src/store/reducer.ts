@@ -1,4 +1,4 @@
-const initialState = {
+export const initialState = {
     openNoteId: null,
     nextNoteId: 1,
     notes: {} as any,
@@ -50,7 +50,7 @@ export const reducer = (state = initialState, action: any) => {
     case CLOSE_NOTE: {
         return {
             ...state,
-            openNotedId: null,
+            openNoteId: null,
         }
     }
 
