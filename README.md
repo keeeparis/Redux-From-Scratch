@@ -1,4 +1,4 @@
-### Redux from Scratch
+## Redux from Scratch
 Slomux — упрощённая, сломанная реализация Flux.
 
 Перед тобой небольшое приложение, написанное на React + Slomux: https://codepen.io/csssr/pen/QPyPrz?editors=1010
