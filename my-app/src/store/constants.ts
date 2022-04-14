@@ -1,3 +1,2 @@
 export const UPDATE_COUNTER = 'UPDATE_COUNTER'
-export const DO_NOTHING = 'DO_NOTHING'
 export const CHANGE_STEP_SIZE = 'CHANGE_STEP_SIZE'

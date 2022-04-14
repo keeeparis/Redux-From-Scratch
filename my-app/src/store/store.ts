@@ -1,4 +1,4 @@
-import { initialState, mainReducer } from './reducer'
+import { initialState, mainReducer } from './mainReducer'
 import { PayloadAction, ReducerType } from './types'
 
 export const validateAction = (action: PayloadAction) => {
@@ -10,26 +10,26 @@ export const validateAction = (action: PayloadAction) => {
     }
 }
 
-export const createStore = (reducer: ReducerType) => {
-    let state: typeof initialState
+export const createStore = (reducer: ReducerType, defaultState: typeof initialState) => {
+    let state = defaultState
 
-    const subscribers: any[] = []
+    const listeners: any[] = []
+    const getState = () => state
     const coreDispatch = (action: PayloadAction) => {
         validateAction(action)
         state = reducer(state, action)
-        subscribers.forEach((handler: any) => handler())
+        listeners.forEach((handler: any) => handler())
     }
-    const getState = () => state
 
     const store = {
         dispatch: coreDispatch,
         getState,
         subscribe: (handler: any) => {
-            subscribers.push(handler)
+            listeners.push(handler)
             return () => {
-                const index = subscribers.indexOf(handler)
+                const index = listeners.indexOf(handler)
                 if (index > 0) {
-                    subscribers.splice(index, 1)
+                    listeners.splice(index, 1)
                 }
             }
         },
@@ -38,7 +38,7 @@ export const createStore = (reducer: ReducerType) => {
     return store
 }
 
-export const store = createStore(mainReducer)
+export const store = createStore(mainReducer, initialState)
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
