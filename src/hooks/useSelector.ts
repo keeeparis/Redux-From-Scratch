@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
+
+import useStoreContext from './useStore'
+
 import { RootState } from '../store/store'
-import useStore from './useStore'
 
 const isEqual = (current: any, previous: any) => current === previous
 
 const useSelector = (
     selector: any,
 ) => {
-    const store = useStore()
+    const store = useStoreContext()
     const [, setState] = useState({})
 
     const newStateValue = selector(store.getState())
@@ -26,7 +28,7 @@ const useSelector = (
         const unsubscribe = store.subscribe(() => updateCallback())
 
         return () => unsubscribe()
-    }, [])
+    }, [newStateValue])
 
     return newStateValue
 }

@@ -1,8 +1,8 @@
-import useStore from './useStore'
+import useStoreContext from './useStore'
 
 const useDispatch = () => {
-    const store = useStore()
-    return store.dispatch
+    const { dispatch } = useStoreContext()
+    return dispatch
 }
 
 export default useDispatch

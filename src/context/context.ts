@@ -5,4 +5,4 @@ export type ContextType = {
     store: StoreType
 }
 
-export const Context = createContext<ContextType | null>(null)
+export const Context = createContext<ContextType>({} as ContextType)
