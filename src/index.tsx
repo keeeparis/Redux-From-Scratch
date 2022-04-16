@@ -13,10 +13,8 @@ const container = document.getElementById('root')
 const root = createRoot(container as HTMLDivElement)
 
 root.render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <Step />
-            <Counter />
-        </Provider>
-    </React.StrictMode>,
+    <Provider store={store}>
+        <Step />
+        <Counter />
+    </Provider>,
 )
