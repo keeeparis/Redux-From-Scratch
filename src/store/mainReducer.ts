@@ -1,5 +1,6 @@
 import { CHANGE_STEP_SIZE, UPDATE_COUNTER } from './constants'
 import { PayloadAction } from './types'
+import { RootState } from './store'
 
 export const initialState = {
     counter: 0,
@@ -29,3 +30,6 @@ export const mainReducer = (state = initialState, action: PayloadAction) => {
         return state
     }
 }
+
+export const selectCounter = (state: RootState) => state.counter
+export const selectStepSize = (state: RootState) => state.stepSize

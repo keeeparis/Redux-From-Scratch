@@ -1,11 +1,13 @@
 import React from 'react'
-import { changeStepSize } from '../store/actionCreators'
-import { RootState } from '../store/store'
+
 import useDispatch from '../hooks/useDispatch'
 import useSelector from '../hooks/useSelector'
 
+import { changeStepSize } from '../store/actionCreators'
+import { selectStepSize } from '../store/mainReducer'
+
 const Step = () => {
-    const stepSize = useSelector((state: RootState) => state.stepSize)
+    const stepSize = useSelector(selectStepSize)
     const dispatch = useDispatch()
 
     const handleStepChange = (e: React.ChangeEvent<HTMLInputElement>) => {

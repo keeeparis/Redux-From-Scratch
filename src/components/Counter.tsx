@@ -1,11 +1,13 @@
 import React from 'react'
-import { updateCounter } from '../store/actionCreators'
-import { RootState } from '../store/store'
+
 import useDispatch from '../hooks/useDispatch'
 import useSelector from '../hooks/useSelector'
 
+import { updateCounter } from '../store/actionCreators'
+import { selectCounter } from '../store/mainReducer'
+
 const Counter = () => {
-    const counter = useSelector((state: RootState) => state.counter)
+    const counter = useSelector(selectCounter)
     const dispatch = useDispatch()
 
     const handleUpdateCounter = (value: number) => () => {
